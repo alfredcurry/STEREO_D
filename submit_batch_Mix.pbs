@@ -1,0 +1,15 @@
+#PBS -l walltime=10:00:00
+#PBS -l select=1:ncpus=1:mem=1gb
+#PBS -J 0-28
+
+cd $PBS_O_WORKDIR
+
+#!/bin/bash
+FOLDER=And11_Litasov/Booth
+mkdir -p Results/${FOLDER}/AVG
+
+masses=(0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1 0.11 0.12 0.13 0.14 0.15)
+masses=(0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.1 0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.2 0.21 0.22 0.23 0.24 0.25 0.26 0.27 0.28 0.29 0.3 0.31)
+Finit=6e5
+#grid size , mass , Tbound type , Pbound type , surface temp OR L, Psurf , # , ftime , tmax , Teq . folder , nabtype , MLtype , Massloss , BLtype , corefrac
+./MixStruct 800 ${masses[$PBS_ARRAY_INDEX]} l f 1500 1e9 1 0.001 2e10 ${Finit} ${FOLDER} c n B 0 0.6 2460 > logfile_2460.${masses[$PBS_ARRAY_INDEX]}.$PBS_ARRAY_INDEX

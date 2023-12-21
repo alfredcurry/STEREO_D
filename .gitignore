@@ -1,0 +1,7 @@
+logfile*
+*.log
+*.dylib
+*.so
+eos/*/data/*
+*.o
+Results/*
