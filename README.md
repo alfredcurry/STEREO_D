@@ -20,7 +20,9 @@ To compile all executables run
 
 or to compile individual executables run `make` followed by the executable name.
 
-To run executables I have created `bash` scripts which are in the formate `run_???.sh` which both create folders to store results in and run the executables with the required input parameters. Either modify these, create new ones or use the scripts inside them. The required input parameters for the executbales (e.g., planet mass, grid resolution) are written in the `run_???.sh` scripts and the corresponding `.cc` files in `frontcodefiles`. 
+To run executables I have created `bash` scripts which are in the formate `run_???.sh` which both create folders to store results in and run the executables with the required input parameters. Either modify these, create new ones or use the scripts inside them. The required input parameters for the executbales (e.g., planet mass, grid resolution) are written in the `run_???.sh` scripts and the corresponding `.cc` files in `frontcodefiles`. I also include a `submit_???.pbs` file for use on HPC.
+
+Units are SI, unless stated otherwise.
 
 ### Executable options
 `MixStruct` - with "Mix" EoS and analyitc BCs (likely the desired method)
@@ -112,9 +114,15 @@ Equations of state are included at compile time and read in at the start. The eq
 
 `Cp del nu lmix DS DV u_conv`
 
-"bulk" FILE CONTANS
+"bulk" FILE depends on the exact planet specifications. 
+FOR "MIX" EOS IT CONTANS
 
-``
+`time (yrs), P_c, R_edge, T_c, L_edge, P_surf, T_surf, r_RCB, r_solidus (upper), r_liquidus, r_{critical melt frac}, r_solidus (deeper), r_{5% melt frac} (upper), r_{5% melt frac} (deeper), E_grav, E_thermal, E_total, M_{edge of grid}, M_total, Mass loss, z_edge, M_CMB, R_CMB, L_CMB, T_CMB, m_solidus (upper), m_solidus (deeper), m_liquidus, m_{critical melt frac}, P_solidus (upper), P_solidus (deeper), P_liquidus, P_{critical melt frac}, phi_outer, T_1Gpa, dt (yrs), timestep number, grid size`
+
+"mass" FILE is a reduced version just with properties related to mass evolution. 
+IT CONTAINS
+
+`time (yrs), M_total, M_dot (lost from planet), M_dot (from day to nightside), total mass lost from dayside, R_total`
 
 ## Plotting results
 In the folder `plotting` I have placed some example scripts for plotting results. These will require modification to the user's particular desires.

@@ -8,9 +8,12 @@ import matplotlib.ticker
 
 #plt.style.use('paper_style.mplstyl')
 
+#Physical constants
 M_E = 5.972e24 #kg
 R_E = 6.371e6 #m
-G_Newt =  6.67428e-11 
+G_Newt =  6.67428e-11 #SI units
+
+#Planet properties
 
 M_dot = 0
 Mcore = 0
@@ -20,7 +23,7 @@ tau = 0
 ftime = 0.001
 M = 0.15
 thisM=M
-fig_version = "all"
+
 Pss = [5e8]
 num = 1
 Linit = 7e5
@@ -30,6 +33,11 @@ Tmin = 0
 Tmax = 4000
 tmax = None
 
+MLtype = "NB"
+Teq = 2320
+folder = "And11_Litasov/Booth_new"
+
+#Figure properties
 fig_therm , ax_therm  = plt.subplots(3,1 , figsize = (6, 10) , sharex = True , gridspec_kw={'height_ratios': [1, 1.2, 1.5]})#
 
 i=0
@@ -37,12 +45,6 @@ mark = [ 'None', 'None' , 'None', 'None', 'None', 'None']
 lstyl = ['solid' , 'dashed' , 'dotted' ]
 colours = ['b' , 'k' , 'y' , 'g' , 'y' , 'cyan']
 
-MLtype = "NB"
-Teq = 2320
-
-folder = "And11_Litasov/Booth_new"
-logLsize = 300
-gsize = 40
 i = 0
 for Ps in Pss:
     if M_dot == 1:
@@ -54,14 +56,16 @@ for Ps in Pss:
     
     print(bulkfile)
     bulk = np.loadtxt(bulkfile)
+    print(np.shape(bulk))
+
     m_row = 14+3
     bulk =bulk[:-1,:]
     m = bulk[bulk[:,m_row] > 0.1*bulk[0,m_row], m_row]
     last_index = len(m)
-    print(last_index)
+
     #m = bulk[:last_index,m_row+1] 
     m_tot = bulk[:last_index,m_row+1]
-    #print(m_tot)
+
     if M == 0.03:
         m_core = bulk[:last_index,m_row+4] 
     elif M == 0.1:
@@ -77,13 +81,10 @@ for Ps in Pss:
     m_core = bulk[:last_index,m_row+4] 
 
     g = G_Newt*m_tot/(r+z_edge)**2
-    print("g" , g)
     L = bulk[:last_index,4]
     Lcore = bulk[:last_index,m_row+6]
     L_tild = L/(2*np.pi*r**2)
     t = bulk[:last_index,0]
-
-    #Tn = Tnfunc(np.log10(L_tild))
     
     Tc = bulk[:last_index,3]
     Ts = bulk[:last_index,6]
@@ -106,6 +107,7 @@ for Ps in Pss:
     #ax_therm[0].plot(t, m_core[:]/ M_E, color = colours[i] , linestyle = "dotted")
     
     def R_plot(ax):
+        #The commented 'fill_between' options provide an alternative style
         ax.plot(t, r_tot/R_E , color = 'k' , label = 'Total radius')
         ax.plot(t, r/R_E , color = colours[i] , label = 'Radius at 1 GPa' )
         ax.plot(t, Rcore/R_E , color = 'r'  , label = 'Core radius')
@@ -165,6 +167,8 @@ ax_therm[len(ax_therm)-1].xaxis.set_minor_locator(locmin)
 ax_therm[len(ax_therm)-1].xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
 
 #ax_therm[len(ax_therm)-1].xaxis.grid(True, which='minor')
+
+#Unit conversions for axes
 def Earth_to_km(R):
     return R*R_E/1000
 def km_to_Earth(R):
@@ -201,8 +205,6 @@ config_R_plot(ax_therm[2])
 #ax_therm[0].legend()
 secLax = ax_therm[0].secondary_yaxis('right', functions=(SI_to_CGS_flux , CGS_to_SI_flux))
 secLax.set_ylabel("Mean flux [erg s$^{-1}$cm$^{-2}$]")
-#secLax.set_yticks(np.logspace(0,9,6))
-#secLax.set_yticklabels(SI_to_CGS_flux(np.logspace(-3,6,5)))
 
 ax_therm[1].legend(loc = "lower left" , bbox_to_anchor=(0, 0))
 ax_therm[2].legend(loc = "lower right" , bbox_to_anchor=(1, 0.05))

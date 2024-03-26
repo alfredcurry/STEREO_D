@@ -6,43 +6,14 @@ from matplotlib.ticker import FormatStrFormatter
 from matplotlib import lines
 import math
 
-'''Script for plotting snapshots of the internal evolution of a planet's properties. Currently you have to manually decide what timesteps to use.'''
+'''Script for plotting snapshots of the internal evolution of a planet's properties. One can also produce a series of images to create an animation. Currently you have to manually decide what timesteps to use.'''
 
-#print(plt.rcParams['font.sans-serif'])
-#print(mpl.font_manager.findSystemFonts(fontpaths=None, fontext='ttf'), sep="\n")
 #plt.style.use('paper_style.mplstyl')
 
+#Physical constants
 M_E = 5.972e24 #kg
 R_E = 6.371e6 #m
 G_Newt =  6.67428e-11 
-
-figrows = 2
-
-fig , axs = plt.subplots(figrows, 2 , sharex = 'col', figsize = (12 , 8))
-fig .subplots_adjust( hspace= 0.1 , wspace= 0.2)
-
-lstyls =  list(lines.lineStyles.keys())
-lstyls = lstyls[:4]
-print(lstyls)
-
-Ps = 5e8
-
-Tsurf = np.arange(1400 , 3100 , 100)
-
-iron_melting = np.loadtxt("eos/LiquidIron/Iron_melting.csv", delimiter = ',')
-#np.savetxt("eos/LiquidIron/Iron_melting.txt", iron_melting[:,1] )
-#np.savetxt("eos/LiquidIron/Iron_melting_P.txt", iron_melting[:,0] )
-
-
-axs[0,0].plot(iron_melting[:,0],iron_melting[:,1] , linestyle = 'dashed' , color = 'k')
-#Tsurf = np.append( [1700 , 1780 , 1790], Tsurf)
-
-run = 'Fitted_Booth'
-MLtype = "NB"
-Mdot = 0
-folder = "And11_Litasov/Booth_new"
-
-ts = [ 0 , 100.04 , 1001 , 10850 ,1.019e+10]
 
 def Earth_to_km(R):
     return R*R_E/1000
@@ -51,12 +22,34 @@ def km_to_Earth(R):
 def add_km_axis(ax ):
     secax = ax.secondary_yaxis('right', functions=(km_to_Earth , Earth_to_km ))
     secax.set_ylabel("Radius [R$_{\oplus}$]")
-    
+
+#figure properties
+figrows = 2
+
+fig , axs = plt.subplots(figrows, 2 , sharex = 'col', figsize = (12 , 8))
+fig .subplots_adjust( hspace= 0.1 , wspace= 0.2)
+
+lstyls =  list(lines.lineStyles.keys())
+lstyls = lstyls[:4]
+
+scalx = "linear"
+scaly = "linear"
+paramlabels = [ "Temperature, $T$ [K]" ,'Melt Fraction, $\phi$' ,  r'Density, $\rho$ [kg/m$^3$]' , r"Viscosity, $\eta$ [Pa s]" ]
+
+#Planet properties
+
 M = 0.15
 
-colors = pl.cm.jet_r(np.linspace(0,1,len(ts)))
+iron_melting = np.loadtxt("eos/LiquidIron/Iron_melting.csv", delimiter = ',')
+axs[0,0].plot(iron_melting[:,0],iron_melting[:,1] , linestyle = 'dashed' , color = 'k')
 
+run = 'Fitted_Booth'
+MLtype = "NB"
+Mdot = 0
+folder = "And11_Litasov/Booth_new"
 #colors = np.full(len(ts), 'r')
+Ps = 5e8
+Linit = 7e5
 
 Mcore = 0 #1.95e24
 Rcore = 0 #3.5e6
@@ -67,15 +60,11 @@ core_frac = 0.3
 tau = 0
 Teq = 2320
 Res = 800
-
 ftime = 0.001
 
-paramlabels = [ "Temperature, $T$ [K]" ,'Melt Fraction, $\phi$' ,  r'Density, $\rho$ [kg/m$^3$]' , r"Viscosity, $\eta$ [Pa s]" ]
 
-scalx = "linear"
-scaly = "linear"
-
-Linit = 7e5
+ts = [ 0 , 100.04 , 1001 , 10850 ,1.019e+10]
+colors = pl.cm.jet_r(np.linspace(0,1,len(ts)))
 
 
 i=0
@@ -146,7 +135,8 @@ for t in ts:
 
     #viscosity
     visc = other[rho<7000,2]*rho[rho<7000]
-         
+    
+    #melt fraction
     phi = val[rho<7000,8]
     
     axs[0,1].plot(P[rho<7000], phi , color = colors[i] , linestyle = lstyls[i%len(lstyls)] , marker = mark) 

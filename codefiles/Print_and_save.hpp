@@ -35,6 +35,7 @@ class Saver{ /// Class for saving output values, and printing key values
         void save_average_values(char *num , struct P_P *planet , EoS *eos , double &save_time , double &time , double &time0){
             /// Save values for a particular time, that the code does not exactly calculate for, by averaging the values from the step before and the step after
             if(Allthing.col(0).size() != J){
+                // The model mass grid needs to be the same size for both timesteps 
                 std::cout << "DIFFERENT SIZES SO HAVEN'T AVERAGED" << std::endl;
             }else{
             
@@ -431,9 +432,7 @@ class Saver{ /// Class for saving output values, and printing key values
                     }
                                     
                 }
-            }else{
-                //planet->M*((-planet->Cp.head(J-1)*planet->T0 + planet->del.head(J-1)/planet->rho.head(J-1)*planet->P0)*planet->dm).sum();
-                
+            }else{                
 
                 r_B = G_Newt * planet->M_core/(boltz_R*planet->Teq/planet->mu_m);
                 for(j=0 ; j<J ; j++){
@@ -633,8 +632,7 @@ class Saver{ /// Class for saving output values, and printing key values
             Allthing.block(0,I+2,J,1) = planet->nabla;
 
             std::cout << Allthing << std::endl;
-            //std::cout << planet->diffnabla << std::endl;
-            //std::cout << "\n" << planet->E_mass_loss.transpose() << std::endl;
+            
             int t_broken = 10;
             double time_broken = 0;
             save_bulk( planet , eos , t_broken , time_broken );
