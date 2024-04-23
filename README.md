@@ -14,36 +14,8 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="0.39763045"
-     inkscape:cx="1013.5039"
-     inkscape:cy="172.27051"
-     inkscape:window-width="1680"
-     inkscape:window-height="968"
-     inkscape:window-x="193"
-     inkscape:window-y="93"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="layer1-2" /><defs
-     id="defs1"><inkscape:path-effect
-       effect="spiro"
-       id="path-effect34"
-       is_visible="true"
-       lpeversion="1" /><inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : -264.74187 : 1"
-       inkscape:vp_y="0 : 999.99993 : 0"
-       inkscape:vp_z="210 : -264.74187 : 1"
-       inkscape:persp3d-origin="105.00001 : -314.24186 : 1"
-       id="perspective23" /><clipPath
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath14"><path
          id="path15"
@@ -130,9 +102,7 @@
        ry="10.170673" /></g></svg>
 
 
-
-# STEREO-D
-### Structural & Thermal Evolution of Rocky Exoplanets in One-Dimension
+# Structural & Thermal Evolution of Rocky Exoplanets in One-Dimension
 
 ## INSTALLATION
 
